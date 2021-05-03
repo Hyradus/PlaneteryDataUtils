@@ -1,0 +1,13 @@
+  Group = Mapping
+    ProjectionName     = EQUIRECTANGULAR
+    CenterLongitude    = 0.0
+    TargetName         = Moon
+    EquatorialRadius   = 1737400.0 <meters>
+    PolarRadius        = 1737400.0 <meters>
+    LatitudeType       = Planetocentric
+    LongitudeDirection = PositiveEast
+    LongitudeDomain    = 180
+    MinimumLatitude    = -90.0
+    PixelResolution    = 0.5 <meters/pixel>
+    CenterLatitude     = 0.0
+  End_Group

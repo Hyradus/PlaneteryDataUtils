@@ -23,7 +23,7 @@ def cub2map(src):
     dst_cal = dst.split('.cub')[0]+'_cal.cub'
     print('Calibrating')
     lronaccal(from_=dst,to=dst_cal)
-    map_template = '/home/hyradus/anaconda3/envs/isis/appdata/templates/maps/map_template_moon_eqc_5m.map'
+    map_template = '/media/hyradus/DATA/Syncthing/SyncData/PyS/LROC/Parallel-ISIS2MAP/maptemplate/map_template_moon_eqc.map'
     dst_map = dst_cal.split('.cub')[0]+'_map_5m.cub'
     print('Projectin cube to map')
     cam2map(from_=dst_cal, to=dst_map, map_=map_template)
@@ -56,8 +56,8 @@ def parallel_cub2map(files, JOBS):
                             for i in range(len(files)))
    
 def main():
-    PATH = '/mnt/DATS-NFS'
-    ixt = 'img'
+    # PATH = '/mnt/DATS-NFS'
+    # ixt = 'img'
     
     
     image_list = get_paths(PATH, ixt) 
@@ -118,10 +118,10 @@ if __name__ == "__main__":
         PATH = filedialog.askdirectory(parent=root,initialdir=os.getcwd(),title="Please select the folder with the files to be cropped as square")
         print('Working folder:', PATH)
     if ixt is None:
-        while ixt not in ['TIFF','tiff','PNG','png','JPG','jpg','JP2','jp2']:
+        while ixt not in ['TIFF','tiff','PNG','png','JPG','jpg','JP2','jp2','IMG','img']:
          print('Please enter TIFF or tiff, PNG or png or JPG or jpg')    
          ixt = input('Enter input image format: ')
   
     
-    dst_folder = make_folder(PATH,'processed')
+    # dst_folder = make_folder(PATH,'processed')
     main()
