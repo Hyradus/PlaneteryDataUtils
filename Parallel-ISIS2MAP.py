@@ -19,9 +19,15 @@ def cub2map(src):
     dst = src.split('.IMG')[0]+'.cub'
     print('Creating cube')
     lronac2isis(from_=src, to=dst)
-    spiceinit(from_=dst, web='yes')
+    init = None
+    while init == None:
+        try:
+            spiceinit(from_=dst, web='yes')
+            init = 'Done'
+        except:
+            pass
     dst_cal = dst.split('.cub')[0]+'_cal.cub'
-    print('Calibrating')
+    print('Calibrating Cube')
     lronaccal(from_=dst,to=dst_cal)
     map_template = '/media/hyradus/DATA/Syncthing/SyncData/PyS/LROC/Parallel-ISIS2MAP/maptemplate/map_template_moon_eqc.map'
     dst_map = dst_cal.split('.cub')[0]+'_map_5m.cub'
@@ -45,7 +51,7 @@ def cub2map(src):
     except Exception as e:
         print(e)
     try:
-        os.remove(src_map)
+        os.remove(dst_map)
     except Exception as e:
         print(e)
     
@@ -77,8 +83,8 @@ def main():
         JOBS = avcores
     
         
-    if ram_thread > 2:
-        JOBS=avthreads
+    # if ram_thread > 2:
+    #     JOBS=avthreads
     
         
     with tqdm(total=len(image_list),
@@ -93,11 +99,16 @@ def main():
         chunks = []
         for c in chunk_creator(image_list, JOBS):
             chunks.append(c)
-    
+        # from time import time
+        from datetime import datetime
         for i in range(len(chunks)):
+            start = datetime.now()
+            dt_string = start.strftime("%d/%m/%Y %H:%M:%S")
+            print(f'Loop {i} started at: {dt_string}')
             files = chunks[i]
             parallel_cub2map(files, JOBS)
             pbar.update(JOBS)
+            # print(time()-start)
             
 
      
