@@ -16,44 +16,58 @@ from utils.GenUtils import make_folder, get_paths, chunk_creator, folder_file_si
 
 
 def cub2map(src):
-    dst = src.split('.IMG')[0]+'.cub'
-    print('Creating cube')
-    lronac2isis(from_=src, to=dst)
-    init = None
-    while init == None:
-        try:
-            spiceinit(from_=dst, web='yes')
-            init = 'Done'
-        except:
-            pass
-    dst_cal = dst.split('.cub')[0]+'_cal.cub'
-    print('Calibrating Cube')
-    lronaccal(from_=dst,to=dst_cal)
-    map_template = '/media/hyradus/DATA/Syncthing/SyncData/PyS/LROC/Parallel-ISIS2MAP/maptemplate/map_template_moon_eqc.map'
-    dst_map = dst_cal.split('.cub')[0]+'_map_5m.cub'
-    print('Projectin cube to map')
-    cam2map(from_=dst_cal, to=dst_map, map_=map_template)
     
-    src_map = gdal.Open(dst_map)
-    # format = 'GTiff'
-    # driver = gdal.GetDriverByName(format)
-    dst_gtiff = dst_map.split('.cub')[0]+'.JP2'
-    # isis2std(from_=dst_map, to=dst_gtiff,mode='grayscale',format='TIFF',bittype='8BIT',stretch='linear', minpercent=0.2, maxpercent=99.8)
-    opts = f'-a_nodata none -mask none -scale -ot Byte'
-    print('Exporting map')
-    gdal.Translate(dst_gtiff,src_map,options=opts)
-    try:
-        os.remove(dst)
-    except Exception as e:
-        print(e)
-    try:
-        os.remove(dst_cal)
-    except Exception as e:
-        print(e)
-    try:
-        os.remove(dst_map)
-    except Exception as e:
-        print(e)
+    src_basename = os.path.basename(src).split('.IMG')[0]
+    dst_basename = DPATH+'/'+src_basename
+    dst_basefpath = DPATH+'/'+src_basename
+    print(dst_basename)
+    if os.path.isfile(dst_basename+'_cal_map.JP2'):
+        print ("File exist")
+    elif os.path.isfile(dst_basename+'.JP2'):
+        print ("File exist")
+    else:
+        dst = dst_basefpath+'.cub'
+        # print('Creating cube')
+        lronac2isis(from_=src, to=dst)
+        init = None
+        while init == None:
+            try:
+                spiceinit(from_=dst, web='yes')
+                init = 'Done'
+            except:
+                pass
+        dst_cal = dst_basefpath+'_cal.cub'
+        # print('Calibrating Cube')
+        lronaccal(from_=dst,to=dst_cal)
+        map_template = './maptemplate/map_template_moon_eqc.map'
+        dst_map = dst_cal.split('.cub')[0]+'_map.cub'
+        # print('Projectin cube to map')
+        try:
+            cam2map(from_=dst_cal, to=dst_map, map_=map_template)
+            
+            src_map = gdal.Open(dst_map)
+            # format = 'GTiff'
+            # driver = gdal.GetDriverByName(format)
+            dst_jp2 = dst_basefpath+'.JP2'
+            # isis2std(from_=dst_map, to=dst_gtiff,mode='grayscale',format='TIFF',bittype='8BIT',stretch='linear', minpercent=0.2, maxpercent=99.8)
+            opts = f'-a_nodata none -mask none -scale -ot Byte'
+            # print('Exporting map')
+            gdal.Translate(dst_jp2,src_map,options=opts)
+            try:
+                os.remove(dst)
+            except Exception as e:
+                print(e)
+            try:
+                os.remove(dst_cal)
+            except Exception as e:
+                print(e)
+            try:
+                os.remove(dst_map)
+            except Exception as e:
+                print(e)
+        except Exception as e:
+            print(src_basename, e)
+            pass
     
     
 def parallel_cub2map(files, JOBS):
@@ -104,7 +118,7 @@ def main():
         for i in range(len(chunks)):
             start = datetime.now()
             dt_string = start.strftime("%d/%m/%Y %H:%M:%S")
-            print(f'Loop {i} started at: {dt_string}')
+            print(f'Loop {i} started at: {dt_string}', chunks[i])
             files = chunks[i]
             parallel_cub2map(files, JOBS)
             pbar.update(JOBS)
@@ -116,23 +130,32 @@ def main():
 if __name__ == "__main__":
 
     parser = ArgumentParser()
-    parser.add_argument('--PATH', help='Directory with the files to be cropped as square')
-    parser.add_argument('--ixt', help='output file format (tiff,png,jpg')
+    parser.add_argument('--PATH', help='Directory with the files to be processed')
+    parser.add_argument('--DPATH', help='Destination directory')
+    parser.add_argument('--ixt', help='output file format (IMG')
 
     args = parser.parse_args()  
     PATH = args.PATH
+    DPATH = args.PATH
     ixt = args.ixt
      
     if PATH is None:
         root = Tk()
         root.withdraw()
-        PATH = filedialog.askdirectory(parent=root,initialdir=os.getcwd(),title="Please select the folder with the files to be cropped as square")
+        PATH = filedialog.askdirectory(parent=root,initialdir=os.getcwd(),title="Please select the folder with the files to be processed")
         print('Working folder:', PATH)
+    if DPATH is None:
+        root = Tk()
+        root.withdraw()
+        DPATH = filedialog.askdirectory(parent=root,initialdir=os.getcwd(),title="Please select the destination folder")
+        print('Working folder:', DPATH)
     if ixt is None:
-        while ixt not in ['TIFF','tiff','PNG','png','JPG','jpg','JP2','jp2','IMG','img']:
-         print('Please enter TIFF or tiff, PNG or png or JPG or jpg')    
+        while ixt not in ['IMG','img']:
+         print('Please enter IMG or img')    
          ixt = input('Enter input image format: ')
   
     
     # dst_folder = make_folder(PATH,'processed')
     main()
+
+
