@@ -58,6 +58,7 @@ RUN useradd -m -d /home/user -u $UID -g $GID -s /bin/bash user 		\
     && echo "user:$PASSWORD" | chpasswd
 
 ADD PyISIS-Parallel /home/user/PyISIS-Parallel
-RUN chmod +x /home/user/PyISIS-Parallel/jupyter.sh
+RUN chown user -R /home/user/ && \
+    chmod +x /home/user/PyISIS-Parallel/jupyter.sh
 WORKDIR /home/user/
 USER user
