@@ -35,3 +35,11 @@ Edit config by using the following as *inst* :
 optionally change *maptemplate* path if using custom maptemplate file
 
 *the maptemplate file should be copied inside maptemplate folder located inside the cloned git folder*
+
+## Customization of processing
+
+The core processing functions are inside PyISIS-Parallel/utils/KalaUtils.py file. and are imported in the main Notebook after evaluating the config *inst*.
+
+It is possible to:
+* customize each instrument functions by adding/removing steps or parameters.
+* add new instruments functions in the same file and changing the *inst* evaluation in the main notebook
