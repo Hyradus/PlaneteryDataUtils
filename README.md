@@ -26,11 +26,10 @@ Then open PyISIS-Parallel notebook
 ## Processing commands
 
 Edit config by using the following as *inst* :
-```
+
 * **lronac** for Lunar Reconnaissance Orbiter Narrow Angle Camera
 * **lrowac for** Lumar Reconnaissance Orbiter Wide Angle Camera
 * **m3** for Chandraayan1 - Moon Mineralogy Mapper
-```
 
 optionally change *maptemplate* path if using custom maptemplate file
 
