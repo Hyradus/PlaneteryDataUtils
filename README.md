@@ -42,3 +42,6 @@ The core processing functions are inside PyISIS-Parallel/utils/KalaUtils.py file
 It is possible to:
 * customize each instrument functions by adding/removing steps or parameters.
 * add new instruments functions in the same file and changing the *inst* evaluation in the main notebook
+
+## Funding
+*This study is within the Europlanet 2024 RI and EXPLORE project, and it has received funding from the European Union’s Horizon 2020 research and innovation programme under grant agreement No 871149 and No 101004214.*
