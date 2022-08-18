@@ -158,7 +158,7 @@ def m3L1(src, dst_basename,maptemplate, oxt, cam, byte):
             else:
                 if os.path.isfile(L1):                    
                     L1toL2(maptemplate, L1, L2)
-                    null=rio.open(L2).nodata
+                    #null=rio.open(L2).nodata
             #        if byte.lower() in ['y','yes','ye']:
             #            null=0
             #        stretch(L2, to=L2str, NULL=null)
