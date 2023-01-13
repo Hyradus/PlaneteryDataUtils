@@ -50,16 +50,14 @@ def make_folder(path, name):
 #     os.chdir(PATH)
 #     filename = [i for i in glob.glob('**/*.'+ixt,recursive=True)]
 #     return(filename)
-
-
 def get_paths(PATH, ixt):
     import re
     import fnmatch
     # os.chdir(PATH)
-    ext='*.'+ixt
+    ext=f'*{ixt}*'
     chkCase = re.compile(fnmatch.translate(ext), re.IGNORECASE)
     files = [PATH+'/'+f for f in os.listdir(PATH) if chkCase.match(f)]
-    return(files)
+    return(sorted(files))
 
 def folder_file_size(path, image_list):
     from statistics import mean

@@ -24,16 +24,16 @@ def RAWtoL0(inst, src, L0):
 
 def L0toL1(inst, dst_basename, L0, L1):
     inst(L0,to=L1)
-    os.remove(L0)
+   #os.remove(L0)
 
 def L1toL1nacecho(L1,L1echo):
     lronacecho(L1, to=L1echo)
-    os.remove(L1)
+    #os.remove(L1)
     
 def L1toL2(maptemplate, L1, L2):
     #res=GetRes(maptemplate)
     cam2map(L1, to=L2, PIXRES='MAP', map=maptemplate)
-    os.remove(L1)
+    #os.remove(L1)
 
     
 def L2toStd(L2cub, L2std, byte):
