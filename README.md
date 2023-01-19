@@ -5,7 +5,7 @@ A collection of Jupyter Notebooks for processing Planetary Data, including L0 to
 A collection of Jupyter Notebooks for processing Planetary Data, including L0 to L2 processing of HiRISE, LROC, M3 and more.
 
 * Processing notebooks are based on [USGS ISIS](https://github.com/USGS-Astrogeology/ISIS3), [NASA AMES STEREO PIPELINE](https://github.com/NeoGeographyToolkit/StereoPipeline) and their corresponding python packages [KALASIRIS](https://github.com/rbeyer/kalasiris) and [ASAP-STEREO](https://github.com/AndrewAnnex/asap_stereo/).
-* Downloading notebooks are based on several python packags including [gpt](), geoviews, geopandas and more.
+* Downloading notebooks are based on several python packags including [gpt](https://github.com/chbrandt/gpt), geoviews, geopandas and more.
 
 # Data Downloading
 
