@@ -1,4 +1,4 @@
-# PlanetaryDataProcessing
+# PlanetaryDataUtils
 A collection of Jupyter Notebooks for processing Planetary Data, including L0 to L2 processing of HiRISE, LROC, M3 and more.
 
 # Content
